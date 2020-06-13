@@ -16,7 +16,7 @@
  * Requires PHP:      7.3
  * Author:            Jenny Wong
  * Author URI:        https://jwong.co.uk
- * Text Domain:       icebreaker
+ * Text Domain:       jwicebreaker
  * License:           GPL v2 or later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
@@ -35,9 +35,18 @@ function jw_icebreaker_cpt() {
     register_post_type('jw_icebreaker',
         array(
             'labels'      => array(
-                'name'          => __( 'Icebreakers', 'textdomain' ),
-                'singular_name' => __( 'Icebreaker', 'textdomain' ),
-            ),
+                'name'				=> __( 'Icebreakers', 'jwicebreaker' ),
+                'singular_name'		=> __( 'Icebreaker', 'jwicebreaker' ),
+                'menu_name'         => __( 'Icebreakers', 'jwicebreaker' ),
+				'parent_item_colon' => __( 'Parent Icebreaker', 'jwicebreaker' ),
+				'all_items'         => __( 'All Icebreakers', 'jwicebreaker' ),
+				'view_item'         => __( 'View Icebreaker', 'jwicebreaker' ),
+				'add_new_item'      => __( 'Add New Icebreaker', 'jwicebreaker' ),
+				'add_new'           => __( 'Add New', 'jwicebreaker' ),
+				'edit_item'         => __( 'Edit Icebreaker', 'jwicebreaker' ),
+				'update_item'       => __( 'Update Icebreaker', 'jwicebreaker' ),
+				'search_items'		=> __( 'Search Icebreakers', 'jwicebreaker' ),
+			),
             'public'      => true,
             'has_archive' => true,
             'show_in_rest'=> true,
@@ -50,3 +59,15 @@ function jw_icebreaker_cpt() {
     );
 }
 add_action('init', 'jw_icebreaker_cpt');
+
+
+function jw_icebreaker_change_title_text( $title ) {
+
+	if( get_post_type() !== 'jw_icebreaker' ) {
+		return;
+	}
+
+    $title = __( 'Enter icebreaker here', 'jwicebreaker' );
+	return $title;
+}
+add_filter( 'enter_title_here', 'jw_icebreaker_change_title_text' );
