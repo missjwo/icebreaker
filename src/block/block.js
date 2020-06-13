@@ -50,7 +50,7 @@ function getNewQuestion( props ) {
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'jw/block-icebreaker', {
+registerBlockType( 'jw/icebreaker', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Icebreaker - random' ), // Block title.
 	icon: iconEl,
@@ -87,7 +87,7 @@ registerBlockType( 'jw/block-icebreaker', {
 						<Button
 							label='Pick a new random question'
 							icon='controls-repeat'
-							className='icebreaker-refresh-button'
+							className='jwicebreaker-refresh-button'
 							onClick={() => getNewQuestion( props )}
 						/>
 					</Toolbar>
