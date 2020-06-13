@@ -66,7 +66,7 @@ registerBlockType( 'jw/block-icebreaker', {
 	edit: ( props ) => {
 		const { setAttributes } = props;
 
-		if( props.attributes.randomQuestion === '' ){ 
+		if( props.attributes.randomQuestion === undefined ){ 
 			apiFetch( { path: '/wp/v2/icebreakers' } )
 				.then( ( response ) => {
 					const i = getRandomIntInclusive( 0, response.length - 1 );
