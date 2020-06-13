@@ -40,6 +40,8 @@ function jw_icebreaker_cpt() {
             ),
             'public'      => true,
             'has_archive' => true,
+            'show_in_rest'=> true,
+            'rest_base'	  => 'icebreakers',
             'taxonomies'  => array( 'category' ),
             'supports'    => array( 'title', 'author', 'revisions', ),
             'rewrite'     => array( 'slug' => 'icebreakers' ),
