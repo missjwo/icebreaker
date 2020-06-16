@@ -23,7 +23,7 @@
 
 namespace jwo\icebreaker;
 const POST_TYPE = 'jwo_icebreaker';
-
+const TEXTDOMAIN = 'icebreaker';
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -45,17 +45,17 @@ function register_cpt() {
     register_post_type( POST_TYPE,
         array(
             'labels'      => array(
-                'name'				=> __( 'Icebreakers', 'icebreaker' ),
-                'singular_name'		=> __( 'Icebreaker', 'icebreaker' ),
-                'menu_name'         => __( 'Icebreakers', 'icebreaker' ),
-				'parent_item_colon' => __( 'Parent Icebreaker', 'icebreaker' ),
-				'all_items'         => __( 'All Icebreakers', 'icebreaker' ),
-				'view_item'         => __( 'View Icebreaker', 'icebreaker' ),
-				'add_new_item'      => __( 'Add New Icebreaker', 'icebreaker' ),
-				'add_new'           => __( 'Add New', 'icebreaker' ),
-				'edit_item'         => __( 'Edit Icebreaker', 'icebreaker' ),
-				'update_item'       => __( 'Update Icebreaker', 'icebreaker' ),
-				'search_items'		=> __( 'Search Icebreakers', 'icebreaker' ),
+                'name'				=> __( 'Icebreakers', TEXTDOMAIN ),
+                'singular_name'		=> __( 'Icebreaker', TEXTDOMAIN ),
+                'menu_name'         => __( 'Icebreakers', TEXTDOMAIN ),
+				'parent_item_colon' => __( 'Parent Icebreaker', TEXTDOMAIN ),
+				'all_items'         => __( 'All Icebreakers', TEXTDOMAIN ),
+				'view_item'         => __( 'View Icebreaker', TEXTDOMAIN ),
+				'add_new_item'      => __( 'Add New Icebreaker', TEXTDOMAIN ),
+				'add_new'           => __( 'Add New', TEXTDOMAIN ),
+				'edit_item'         => __( 'Edit Icebreaker', TEXTDOMAIN ),
+				'update_item'       => __( 'Update Icebreaker', TEXTDOMAIN ),
+				'search_items'		=> __( 'Search Icebreakers', TEXTDOMAIN ),
 			),
             'public'      => true,
             'has_archive' => true,
@@ -82,7 +82,7 @@ function block_assets() { // phpcs:ignore
 
 	// Register block editor script for backend.
 	wp_register_script(
-		'jwo-icebreaker-block-js', // Handle.
+		POST_TYPE . 'block-js', // Handle.
 		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
 		null, // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
@@ -91,7 +91,7 @@ function block_assets() { // phpcs:ignore
 
 	// WP Localized globals. Use dynamic PHP stuff in JavaScript via `cgbGlobal` object.
 	wp_localize_script(
-		'jwo-icebreaker-block-js',
+		POST_TYPE . '-block-js',
 		'cgbGlobal', // Array containing dynamic data for a JS Global.
 		[
 			'pluginDirPath' => plugin_dir_path( __DIR__ ),
@@ -121,8 +121,8 @@ function block_assets() { // phpcs:ignore
 function register_add_multiples_page() {
     add_submenu_page(
         'edit.php?post_type=' . POST_TYPE, // parent slug
-        __( 'Add Multiple Icebreakers', 'icebreaker' ), //page title
-        __( 'Add Multiples', 'icebreaker' ), //menu title
+        __( 'Add Multiple Icebreakers', TEXTDOMAIN ), //page title
+        __( 'Add Multiples', TEXTDOMAIN ), //menu title
         'edit_posts', //capabilities
         'add_multiples', //menu-slug
         __NAMESPACE__. '\add_multiple_icebreakers_callback', //callback function
@@ -136,10 +136,10 @@ function add_multiple_icebreakers_callback() {
 
 function change_title_text( $title ) {
 
-	if( get_post_type() !== 'jwo_icebreaker' ) {
+	if( get_post_type() !== POST_TYPE ) {
 		return;
 	}
 
-    $title = __( 'Enter icebreaker here', 'icebreaker' );
+    $title = __( 'Enter icebreaker here', TEXTDOMAIN );
 	return $title;
 }
