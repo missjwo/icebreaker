@@ -1,5 +1,5 @@
 node_modules
 
-## Uncomment line below if you prefer to
-## keep compiled files out of version control
-# dist/
+# remove the style and editor css files.
+dist/blocks.editor.build.css
+dist/blocks.style.build.css
