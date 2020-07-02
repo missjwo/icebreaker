@@ -22,8 +22,8 @@
  */
 
 namespace jwo\icebreaker;
-const AUTHOR_PREFIX = 'jw';
-const POST_TYPE = 'jw_icebreaker';
+const AUTHOR_PREFIX = 'jwo';
+const POST_TYPE = AUTHOR_PREFIX .'_icebreaker';
 const TEXTDOMAIN = 'icebreaker';
 
 // Exit if accessed directly.
