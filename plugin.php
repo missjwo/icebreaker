@@ -22,6 +22,7 @@
  */
 
 namespace jwo\icebreaker;
+const AUTHOR_PREFIX = 'jw';
 const POST_TYPE = 'jw_icebreaker';
 const TEXTDOMAIN = 'icebreaker';
 
@@ -33,7 +34,49 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Block Initializer.
  */
-require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
+
+function block_assets() { // phpcs:ignore
+   // die(plugins_url( '/dist/blocks.build.js', __FILE__  ));
+    // Register block editor script for backend.
+    wp_register_script(
+        POST_TYPE . '-block-js', // Handle.
+        plugins_url( '/dist/blocks.build.js', __FILE__ ), // Block.build.js: We register the block here. Built with Webpack.
+        array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
+        null, // filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: filemtime — Gets file modification time.
+        true // Enqueue the script in the footer.
+    );
+
+    // WP Localized globals. Use dynamic PHP stuff in JavaScript via `cgbGlobal` object.
+    wp_localize_script(
+        POST_TYPE . '-block-js',
+        'cgbGlobal', // Array containing dynamic data for a JS Global.
+        [
+            'pluginDirPath' => plugin_dir_path( __FILE__ ),
+            'pluginDirUrl'  => plugin_dir_url( __FILE__ ),
+            // Add more data here that you want to access from `cgbGlobal` object.
+        ]
+    );
+
+    /**
+     * Register Gutenberg block on server-side.
+     *
+     * Register the block on server-side to ensure that the block
+     * scripts and styles for both frontend and backend are
+     * enqueued when the editor loads.
+     *
+     * @link https://wordpress.org/gutenberg/handbook/blocks/writing-your-first-block-type#enqueuing-block-scripts
+     * @since 1.16.0
+     */
+    register_block_type(
+        AUTHOR_PREFIX . '/block-icebreaker', array(
+            // Enqueue blocks.build.js in the editor only.
+            'editor_script' => POST_TYPE . '-block-js',
+        )
+    );
+}
+
+// Hook: Block assets.
+add_action( 'init', __NAMESPACE__. '\block_assets' );
 
 function register_cpt() {
     register_post_type(POST_TYPE,
