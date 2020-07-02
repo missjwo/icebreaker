@@ -32,11 +32,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Plugin Initializer.
+ */
+add_action( 'plugins_loaded', __NAMESPACE__ .'\init' ); 
+
+function init() {
+
+    // Hook: Block assets.
+    add_action( 'init', __NAMESPACE__. '\block_assets' );
+    add_action( 'init', __NAMESPACE__. '\register_cpt');
+    add_action('admin_menu', __NAMESPACE__ .'\register_add_multiples_page');
+
+    add_filter( 'enter_title_here', __NAMESPACE__. '\change_title_text' );
+
+}
+
+/**
  * Block Initializer.
  */
-
 function block_assets() { // phpcs:ignore
-   // die(plugins_url( '/dist/blocks.build.js', __FILE__  ));
     // Register block editor script for backend.
     wp_register_script(
         POST_TYPE . '-block-js', // Handle.
@@ -75,9 +89,6 @@ function block_assets() { // phpcs:ignore
     );
 }
 
-// Hook: Block assets.
-add_action( 'init', __NAMESPACE__. '\block_assets' );
-
 function register_cpt() {
     register_post_type(POST_TYPE,
         array(
@@ -105,20 +116,6 @@ function register_cpt() {
         )
     );
 }
-add_action('init', __NAMESPACE__. '\register_cpt');
-
-
-function change_title_text( $title ) {
-
-	if( get_post_type() !== POST_TYPE ) {
-		return;
-	}
-
-    $title = __( 'Enter icebreaker here', TEXTDOMAIN );
-	return $title;
-}
-add_filter( 'enter_title_here', __NAMESPACE__. '\change_title_text' );
-
 
 function register_add_multiples_page() {
     add_submenu_page(
@@ -130,7 +127,16 @@ function register_add_multiples_page() {
         __NAMESPACE__. '\add_multiple_icebreakers_callback', //callback function
     ); 
 }
-add_action('admin_menu', __NAMESPACE__ .'\register_add_multiples_page'); 
+
+function change_title_text( $title ) {
+
+    if( get_post_type() !== POST_TYPE ) {
+        return;
+    }
+
+    $title = __( 'Enter icebreaker here', TEXTDOMAIN );
+    return $title;
+}
 
 function add_multiple_icebreakers_callback() {
     include( __DIR__ . '/multiple-icebreakers.php' );
