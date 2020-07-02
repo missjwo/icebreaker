@@ -36,20 +36,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
 function register_cpt() {
-    register_post_type('jw_icebreaker',
+    register_post_type(POST_TYPE,
         array(
             'labels'      => array(
-                'name'				=> __( 'Icebreakers', 'jwicebreaker' ),
-                'singular_name'		=> __( 'Icebreaker', 'jwicebreaker' ),
-                'menu_name'         => __( 'Icebreakers', 'jwicebreaker' ),
-				'parent_item_colon' => __( 'Parent Icebreaker', 'jwicebreaker' ),
-				'all_items'         => __( 'All Icebreakers', 'jwicebreaker' ),
-				'view_item'         => __( 'View Icebreaker', 'jwicebreaker' ),
-				'add_new_item'      => __( 'Add New Icebreaker', 'jwicebreaker' ),
-				'add_new'           => __( 'Add New', 'jwicebreaker' ),
-				'edit_item'         => __( 'Edit Icebreaker', 'jwicebreaker' ),
-				'update_item'       => __( 'Update Icebreaker', 'jwicebreaker' ),
-				'search_items'		=> __( 'Search Icebreakers', 'jwicebreaker' ),
+                'name'				=> __( 'Icebreakers', TEXTDOMAIN ),
+                'singular_name'		=> __( 'Icebreaker', TEXTDOMAIN ),
+                'menu_name'         => __( 'Icebreakers', TEXTDOMAIN ),
+				'parent_item_colon' => __( 'Parent Icebreaker', TEXTDOMAIN ),
+				'all_items'         => __( 'All Icebreakers', TEXTDOMAIN ),
+				'view_item'         => __( 'View Icebreaker', TEXTDOMAIN ),
+				'add_new_item'      => __( 'Add New Icebreaker', TEXTDOMAIN ),
+				'add_new'           => __( 'Add New', TEXTDOMAIN ),
+				'edit_item'         => __( 'Edit Icebreaker', TEXTDOMAIN ),
+				'update_item'       => __( 'Update Icebreaker', TEXTDOMAIN ),
+				'search_items'		=> __( 'Search Icebreakers', TEXTDOMAIN ),
 			),
             'public'      => true,
             'has_archive' => true,
@@ -67,11 +67,11 @@ add_action('init', __NAMESPACE__. '\register_cpt');
 
 function change_title_text( $title ) {
 
-	if( get_post_type() !== 'jw_icebreaker' ) {
+	if( get_post_type() !== POST_TYPE ) {
 		return;
 	}
 
-    $title = __( 'Enter icebreaker here', 'jwicebreaker' );
+    $title = __( 'Enter icebreaker here', TEXTDOMAIN );
 	return $title;
 }
 add_filter( 'enter_title_here', __NAMESPACE__. '\change_title_text' );
