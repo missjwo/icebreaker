@@ -13,7 +13,6 @@ if ( ! current_user_can( 'edit_posts' ) ) {
 	return;
 }
 
-
 // verify nounce
 if ( isset( $_POST['addMultipleIcebreakers'] ) ) {
 	
@@ -37,7 +36,6 @@ $return_url = esc_url( add_query_arg( array(
 	'page'		=> 'add_multiples',
 	), admin_url( 'edit.php' ) ) );
 
-
 $render  = '';
 $render .= '<div class="wrap">';
 $render .= '<h2>' . __( 'Add Multiple Icebreakers', TEXTDOMAIN ) . '</h2>';
@@ -50,4 +48,4 @@ $render .= '<input type="submit" value="' . __( 'Save', TEXTDOMAIN ) . '" />';
 $render .= '</form>';
 $render .= '</div>';
 
-echo $render;
+print $render;
