@@ -16,10 +16,14 @@
  * Requires PHP:      7.3
  * Author:            Jenny Wong
  * Author URI:        https://jwong.co.uk
- * Text Domain:       jwicebreaker
+ * Text Domain:       icebreaker
  * License:           GPL v2 or later
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  */
+
+namespace jwo\icebreaker;
+const POST_TYPE = 'jw_icebreaker';
+const TEXTDOMAIN = 'icebreaker';
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -31,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
 
-function jw_icebreaker_cpt() {
+function register_cpt() {
     register_post_type('jw_icebreaker',
         array(
             'labels'      => array(
@@ -58,10 +62,10 @@ function jw_icebreaker_cpt() {
         )
     );
 }
-add_action('init', 'jw_icebreaker_cpt');
+add_action('init', __NAMESPACE__. '\register_cpt');
 
 
-function jw_icebreaker_change_title_text( $title ) {
+function change_title_text( $title ) {
 
 	if( get_post_type() !== 'jw_icebreaker' ) {
 		return;
@@ -70,4 +74,21 @@ function jw_icebreaker_change_title_text( $title ) {
     $title = __( 'Enter icebreaker here', 'jwicebreaker' );
 	return $title;
 }
-add_filter( 'enter_title_here', 'jw_icebreaker_change_title_text' );
+add_filter( 'enter_title_here', __NAMESPACE__. '\change_title_text' );
+
+
+function register_add_multiples_page() {
+    add_submenu_page(
+        'edit.php?post_type=' . POST_TYPE, // parent slug
+        __( 'Add Multiple Icebreakers', TEXTDOMAIN ), //page title
+        __( 'Add Multiples', TEXTDOMAIN ), //menu title
+        'edit_posts', //capabilities
+        'add_multiples', //menu-slug
+        __NAMESPACE__. '\add_multiple_icebreakers_callback', //callback function
+    ); 
+}
+add_action('admin_menu', __NAMESPACE__ .'\register_add_multiples_page'); 
+
+function add_multiple_icebreakers_callback() {
+    include( __DIR__ . '/multiple-icebreakers.php' );
+}
